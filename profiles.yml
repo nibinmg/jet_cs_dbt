@@ -1,0 +1,12 @@
+jet_cs_dbt:
+  outputs:
+    dev:
+      dbname: jet_db
+      host: host.docker.internal
+      pass: admin
+      port: 5432
+      schema: dbt
+      threads: 1
+      type: postgres
+      user: postgres
+  target: dev
