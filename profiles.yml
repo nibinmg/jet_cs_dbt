@@ -2,7 +2,7 @@ jet_cs_dbt:
   outputs:
     dev:
       dbname: jet_db
-      host: host.docker.internal
+      host: 192.168.2.12
       pass: admin
       port: 5432
       schema: dbt

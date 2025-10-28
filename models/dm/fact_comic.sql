@@ -52,7 +52,7 @@ with cte_src as (
         i.images_id, 
         l.links_id as external_links_id, 
         n.news_id,
-        length(regexp_replace(hc.comic_title_txt, '[^A-Za-z]', '', 'g')) * 5 as creator_cost_amt,
+        length(regexp_replace(hc.comic_safe_title_txt, '[^A-Za-z]', '', 'g')) * 5 as creator_cost_amt,
         floor(random()*10000) as comic_views_nr,
         round((random()*9+1)::numeric,1) as customer_review_score
     from {{ref('hub_comic')}} c
