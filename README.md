@@ -76,41 +76,43 @@ Follow these steps to set up the dbt for the first time:
     The profiles.yml file in the repo is for running in Airflow. Do not alter it. 
 
 4. **Check dbt connection**
+
     ```bash
      dbt debug 
      ```
     
 
 5. **Install the dbt packages**
+
      ```bash
      dbt deps 
      ```
 
 ## Lets run/ test models
 
-Run all the models
+    Run all the models
     ```bash
-     dbt run 
+    dbt run 
     ```
 
-Run all the snapshots
+    Run all the snapshots
     ```bash
-     dbt snapshot
+    dbt snapshot
     ```
     
-Run all the tests
+    Run all the tests
     ```bash
-     dbt test 
+    dbt test 
     ```
 
-Run all the models, snapshots and tests
+    Run all the models, snapshots and tests
     ```bash
-     dbt build 
+    dbt build 
     ```
 
-Generate docs and view them, including lineage
+    Generate docs and view them, including lineage
     ```bash
-     dbt docs generate
+    dbt docs generate
 
-     dbt docs serve --port 8081
+    dbt docs serve --port 8081
     ```
