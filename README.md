@@ -91,27 +91,28 @@ Follow these steps to set up the dbt for the first time:
 ## Lets run/ test models
 
     Run all the models
-    ```bash
-    dbt run 
-    ```
+     ```bash
+     dbt run 
+     ```
 
     Run all the snapshots
-    ```bash
-    dbt snapshot
-    ```
+     ```bash
+     dbt snapshot
+     ```
     
     Run all the tests
-    ```bash
-    dbt test 
-    ```
+     ```bash
+     dbt test 
+     ```
 
     Run all the models, snapshots and tests
-    ```bash
-    dbt build 
-    ```
+     ```bash
+     dbt build 
+     ```
 
     Generate docs and view them, including lineage
-    ```bash
-    dbt docs generate
-    dbt docs serve --port 8081
-    ```
+     ```bash
+     dbt docs generate
+     
+     dbt docs serve --port 8081
+     ```
