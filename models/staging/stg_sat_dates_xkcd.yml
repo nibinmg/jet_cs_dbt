@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_sat_dates_xkcd
+    description: "Staging satellite model for publication date metadata from XKCD comics."
+    columns:
+      - name: hsh_hub_dates
+        data_type: text
+        description: "Hash key linking to the corresponding dates hub record for referential integrity."
+
+      - name: dates_day_nr
+        data_type: integer
+        description: "Day of the month when the comic was published."
+
+      - name: dates_month_nr
+        data_type: integer
+        description: "Month number when the comic was published."
+
+      - name: dates_year_nr
+        data_type: integer
+        description: "Year when the comic was published."
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the date data was ingested into the data warehouse."

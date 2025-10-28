@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: lnk_comic_links
+    description: "Linking model that establishes a relationship between XKCD comics and associated external links. Connects hub_comic and hub_links via hash keys."
+    columns:
+      - name: hsh_lnk_comic_links
+        data_type: text
+        description: "Hash key uniquely identifying the comic-links link record."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: hsh_hub_comic
+        data_type: text
+        description: "Hash key referencing the comic hub record."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('hub_comic')
+                field: hsh_hub_comic
+
+      - name: hsh_hub_links
+        data_type: text
+        description: "Hash key referencing the links hub record."
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('hub_links')
+                field: hsh_hub_links
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp when the comic-links relationship was ingested into the data warehouse."

@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_sat_images_xkcd
+    description: "Staging satellite model for image metadata from XKCD comics."
+    columns:
+      - name: hsh_hub_images
+        data_type: text
+        description: "Hash key linking to the corresponding images hub record for referential integrity."
+
+      - name: images_url
+        data_type: text
+        description: "URL of the comic image hosted on XKCD."
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the image data was ingested into the data warehouse."

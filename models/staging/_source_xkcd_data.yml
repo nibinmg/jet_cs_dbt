@@ -1,0 +1,34 @@
+version: 2
+
+sources:
+    - name: jet_cs_source
+      description: Sources data related to JET case study.
+      database: jet_db
+      schema: raw
+      tables:
+          - name: xkcd_data
+            description: Raw data extracted from XKCD comic API.
+            columns:
+              - name: num
+                data_type: integer
+              - name: day
+                data_type: text
+              - name: month
+                data_type: text
+              - name: year
+                data_type: text
+              - name: title
+                data_type: text
+              - name: safe_title
+                data_type: text
+              - name: transcript
+                data_type: text
+              - name: alt
+                data_type: text
+              - name: link
+                data_type: text
+              - name: news
+                data_type: text
+              - name: img
+                data_type: text
+          

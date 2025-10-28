@@ -1,0 +1,53 @@
+version: 2
+
+models:
+  - name: stg_xkcd_data
+    description: "Staging model for raw XKCD comic data extracted from the public API. Contains metadata, content, and timestamps for each comic."
+    columns:
+      - name: num
+        data_type: integer
+        description: "Unique comic identifier assigned by XKCD."
+
+      - name: day
+        data_type: text
+        description: "Day of publication extracted from the comic metadata."
+
+      - name: month
+        data_type: text
+        description: "Month of publication extracted from the comic metadata."
+
+      - name: year
+        data_type: text
+        description: "Year of publication extracted from the comic metadata."
+
+      - name: title
+        data_type: text
+        description: "Original title of the comic as published on XKCD."
+
+      - name: safe_title
+        data_type: text
+        description: "URL-safe version of the comic title for linking and navigation."
+
+      - name: transcript
+        data_type: text
+        description: "Textual transcript of the comic, useful for accessibility and search."
+
+      - name: alt
+        data_type: text
+        description: "Hover text or alternate caption shown when hovering over the comic image."
+
+      - name: link
+        data_type: text
+        description: "External link associated with the comic, if provided."
+
+      - name: news
+        data_type: text
+        description: "Additional news or update text included with the comic metadata."
+
+      - name: img
+        data_type: text
+        description: "URL of the comic image hosted on XKCD."
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp when the comic data was ingested into the data warehouse."

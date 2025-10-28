@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: dim_external_links
+    description: "Dimension model providing descriptive context for external links associated with XKCD comics."
+    columns:
+      - name: links_id
+        data_type: text
+        description: "Business key representing the unique identifier of the external link, derived from the URL."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: links_url
+        data_type: text
+        description: "URL of the external resource related to the comic."

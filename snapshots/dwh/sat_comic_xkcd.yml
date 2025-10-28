@@ -1,0 +1,87 @@
+snapshots:
+  - name: sat_comic_xkcd
+    relation: ref('stg_sat_comic_xkcd')
+    config:
+      schema: dwh
+      unique_key: hsh_hub_comic
+      strategy: timestamp
+      updated_at: load_ts
+      dbt_valid_to_current: to_timestamp('9999-12-31', 'YYYY-MM-DD')
+      snapshot_meta_column_names:
+        dbt_valid_from: comic_valid_from_ts
+        dbt_valid_to: comic_valid_to_ts
+        dbt_scd_id: hsh_sat_comic
+        dbt_updated_at: source_ts
+      post_hook:
+        - |
+          DO $$
+          BEGIN
+              IF NOT EXISTS (
+                  SELECT 1
+                  FROM pg_constraint
+                  WHERE conname = 'pk_sat_comic_xkcd'
+              ) THEN
+                  ALTER TABLE {{ this }} ADD CONSTRAINT pk_sat_comic_xkcd PRIMARY KEY (hsh_sat_comic);
+              END IF;
+
+              IF NOT EXISTS (
+                  SELECT 1 FROM pg_class WHERE relname = 'idx_sat_comic_xkcd_hsh_hub_comic'
+              ) THEN
+                CREATE INDEX idx_sat_comic_xkcd_hsh_hub_comic ON {{ this }} (hsh_hub_comic);
+              ELSE
+                REINDEX TABLE {{ this }};
+              END IF;
+          END $$;
+
+    columns:
+      - name: hsh_hub_comic
+        data_type: text
+        description: "Hash key linking to the corresponding comic hub record for referential integrity."
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('hub_comic')
+                field: hsh_hub_comic
+
+      - name: comic_title_txt
+        data_type: text
+        description: "Original title of the comic as published on XKCD."
+
+      - name: comic_safe_title_txt
+        data_type: text
+        description: "URL-safe version of the comic title, used for navigation and linking."
+        data_tests:
+          - not_null
+
+      - name: comic_transcript_txt
+        data_type: text
+        description: "Textual transcript of the comic, useful for accessibility, search, and analysis."
+
+      - name: comic_alt_txt
+        data_type: text
+        description: "Alternate caption or hover text displayed when hovering over the comic image."
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the comic data was ingested into the data warehouse."
+
+      - name: hsh_sat_comic
+        data_type: text
+        description: "Hash key uniquely identifying the satellite record, used for versioning and change tracking."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: source_ts
+        data_type: timestamp without time zone
+        description: "Timestamp from the source system indicating when the comic data was originally captured."
+
+      - name: comic_valid_from_ts
+        data_type: timestamp without time zone
+        description: "Start timestamp indicating when the comic attributes became valid."
+
+      - name: comic_valid_to_ts
+        data_type: timestamp with time zone
+        description: "End timestamp indicating when the comic attributes ceased to be valid or were superseded."

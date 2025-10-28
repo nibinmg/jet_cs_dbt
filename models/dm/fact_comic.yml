@@ -1,0 +1,64 @@
+version: 2
+
+models:
+  - name: fact_comic
+    description: "Fact model capturing measurable and transactional data related to XKCD comics."
+    columns:
+      - name: comic_id
+        data_type: integer
+        description: "Business key representing the unique comic number assigned by XKCD."
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_comic_details')
+                field: comic_id
+
+      - name: published_date_id
+        data_type: integer
+        description: "Business key referencing the date dimension for the comic's publication date."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: dates_id
+
+      - name: images_id
+        data_type: text
+        description: "Business key referencing the Dim Image info for the image information."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_image_info')
+                field: images_id
+
+      - name: external_links_id
+        data_type: text
+        description: "Business key referencing the Dim External Links for the external link associated with the comic."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_external_links')
+                field: links_id
+
+      - name: news_id
+        data_type: text
+        description: "Business key referencing the Dim News Data for the news item."
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_news_data')
+                field: news_id
+
+      - name: creator_cost_amt
+        data_type: integer
+        description: "Cost incurred by the creator for producing the comic, in EURO."
+
+      - name: comic_views_nr
+        data_type: double precision
+        description: "Number of times the comic has been viewed."
+
+      - name: customer_review_score
+        data_type: numeric
+        description: "Average customer review score for the comic, on a scale from 1.0 to 10.0 ."

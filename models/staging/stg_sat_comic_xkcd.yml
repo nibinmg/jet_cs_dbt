@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: stg_sat_comic_xkcd
+    description: "Staging satellite model for core comic metadata from XKCD."
+    columns:
+      - name: hsh_hub_comic
+        data_type: text
+        description: "Hash key linking to the corresponding comic hub record for referential integrity."
+
+      - name: comic_title_txt
+        data_type: text
+        description: "Original title of the comic as published on XKCD."
+
+      - name: comic_safe_title_txt
+        data_type: text
+        description: "URL-safe version of the comic title, used for navigation and linking."
+
+      - name: comic_transcript_txt
+        data_type: text
+        description: "Textual transcript of the comic, useful for accessibility, search, and analysis."
+
+      - name: comic_alt_txt
+        data_type: text
+        description: "Alternate caption or hover text displayed when hovering over the comic image."
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the comic data was ingested into the data warehouse."

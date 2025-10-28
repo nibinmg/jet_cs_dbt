@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: hub_dates
+    description: "Hub model for uniquely identifying date entities associated with XKCD comics."
+    columns:
+      - name: hsh_hub_dates
+        data_type: text
+        description: "Hash key uniquely identifying the dates hub record, used for linking to satellites and link tables."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: dates_id
+        data_type: integer
+        description: "Business key representing the unique date identifier, derived from a combination of day, month, and year."
+        data_tests:
+          - not_null
+
+      - name: source_nm
+        data_type: text
+        description: "Name of the source system or provider from which the date data originated."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['xkcd']
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the date hub record was ingested into the data warehouse."

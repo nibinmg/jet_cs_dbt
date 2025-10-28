@@ -1,0 +1,75 @@
+snapshots:
+  - name: sat_news_xkcd
+    relation: ref('stg_sat_news_xkcd')
+    config:
+      schema: dwh
+      unique_key: hsh_hub_news
+      strategy: timestamp
+      updated_at: load_ts
+      dbt_valid_to_current: to_timestamp('9999-12-31', 'YYYY-MM-DD')
+      snapshot_meta_column_names:
+        dbt_valid_from: dates_valid_from_ts
+        dbt_valid_to: dates_valid_to_ts
+        dbt_scd_id: hsh_sat_news
+        dbt_updated_at: source_ts
+      post_hook:
+        - |
+          DO $$
+          BEGIN
+              IF NOT EXISTS (
+                  SELECT 1
+                  FROM pg_constraint
+                  WHERE conname = 'pk_sat_news_xkcd'
+              ) THEN
+                  ALTER TABLE {{ this }} ADD CONSTRAINT pk_sat_news_xkcd PRIMARY KEY (hsh_sat_news);
+              END IF;
+
+              IF NOT EXISTS (
+                  SELECT 1 FROM pg_class WHERE relname = 'idx_sat_news_xkcd_hsh_hub_news'
+              ) THEN
+                CREATE INDEX idx_sat_news_xkcd_hsh_hub_news ON {{ this }} (hsh_hub_news);
+              ELSE
+                REINDEX TABLE {{ this }};
+              END IF;
+          END $$;
+
+    columns:
+      - name: hsh_hub_news
+        data_type: text
+        description: "Hash key linking to the corresponding news hub record for referential integrity."
+        data_tests:
+          - unique
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('hub_news')
+                field: hsh_hub_news
+
+      - name: news_txt
+        data_type: text
+        description: "Additional news or update text included with the comic metadata."
+        data_tests:
+          - not_null
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the news data was ingested into the warehouse."
+
+      - name: hsh_sat_news
+        data_type: text
+        description: "Hash key uniquely identifying the satellite record, used for versioning and change tracking."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: source_ts
+        data_type: timestamp without time zone
+        description: "Timestamp from the source system indicating when the comic data was originally captured."
+
+      - name: comic_valid_from_ts
+        data_type: timestamp without time zone
+        description: "Start timestamp indicating when the comic attributes became valid."
+
+      - name: comic_valid_to_ts
+        data_type: timestamp with time zone
+        description: "End timestamp indicating when the comic attributes ceased to be valid or were superseded."

@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_sat_links_xkcd
+    description: "Staging satellite model for external link metadata associated with XKCD comics."
+    columns:
+      - name: hsh_hub_links
+        data_type: text
+        description: "Hash key linking to the corresponding links hub record for referential integrity."
+
+      - name: links_url
+        data_type: text
+        description: "External URL associated with the comic."
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the link data was ingested into the data warehouse."

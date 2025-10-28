@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: hub_comic
+    description: "Hub model for uniquely identifying XKCD comic entities."
+    columns:
+      - name: hsh_hub_comic
+        data_type: text
+        description: "Hash key uniquely identifying the comic hub record, used for linking to satellites and link tables."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: comic_nr
+        data_type: integer
+        description: "Business key representing the unique comic number assigned by XKCD."
+        data_tests:
+          - not_null
+
+      - name: source_nm
+        data_type: text
+        description: "Name of the source system or provider from which the comic data originated."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['xkcd']
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the comic hub record was ingested into the data warehouse."

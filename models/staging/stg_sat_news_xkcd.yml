@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_sat_news_xkcd
+    description: "Staging satellite model for news-related metadata from XKCD comics. created for generating snapshots"
+    columns:
+      - name: hsh_hub_news
+        data_type: text
+        description: "Hash key linking to the corresponding news hub record for referential integrity."
+
+      - name: news_txt
+        data_type: text
+        description: "Additional news or update text included with the comic metadata."
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the news data was ingested into the warehouse."

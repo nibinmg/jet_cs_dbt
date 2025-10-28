@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: dim_news_data
+    description: "Dimension model providing descriptive context for news items associated with XKCD comics."
+    columns:
+      - name: news_id
+        data_type: text
+        description: "Business key representing the unique identifier of the news item, derived from the source system."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: news_txt
+        data_type: text
+        description: "Textual content or summary of the news item."

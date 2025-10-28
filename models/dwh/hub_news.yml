@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: hub_news
+    description: "Hub model for uniquely identifying news entities associated with XKCD comics."
+    columns:
+      - name: hsh_hub_news
+        data_type: text
+        description: "Hash key uniquely identifying the news hub record, used for linking to satellites and links."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: news_id
+        data_type: text
+        description: "Business key representing the unique identifier of the news item, derived from the source system."
+        data_tests:
+          - not_null
+
+      - name: source_nm
+        data_type: text
+        description: "Name of the source system from which the news item originated."
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['xkcd']
+
+      - name: load_ts
+        data_type: timestamp without time zone
+        description: "Timestamp indicating when the news hub record was ingested into the data warehouse."

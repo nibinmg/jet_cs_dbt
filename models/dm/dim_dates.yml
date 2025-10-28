@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: dim_dates
+    description: "Dimension model providing calendar attributes for XKCD comic publication dates."
+    columns:
+      - name: dates_id
+        data_type: integer
+        description: "Business key representing the unique date identifier, derived from a combination of day, month, and year."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: day_nr
+        data_type: integer
+        description: "Day of the month corresponding to the comic's publication date."
+        data_tests:
+          - not_null
+
+      - name: month_nr
+        data_type: integer
+        description: "Month number corresponding to the comic's publication date."
+        data_tests:
+          - not_null
+
+      - name: year_nr
+        data_type: integer
+        description: "Year corresponding to the comic's publication date."
+        data_tests:
+          - not_null
+
+      - name: full_dt
+        data_type: date
+        description: "Full calendar date in YYYY-MM-DD format representing the comic's publication date."

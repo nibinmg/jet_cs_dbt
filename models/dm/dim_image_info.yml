@@ -1,0 +1,16 @@
+version: 2
+
+models:
+  - name: dim_image_info
+    description: "Dimension model providing descriptive context for images associated with XKCD comics."
+    columns:
+      - name: images_id
+        data_type: text
+        description: "Business key representing the unique identifier of the image, derived from the image URL."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: images_url
+        data_type: text
+        description: "URL of the image associated with the comic."

@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: dim_comic_details
+    description: "Dimension model providing descriptive attributes for XKCD comics."
+    columns:
+      - name: comic_id
+        data_type: integer
+        description: "Surrogate key representing the unique comic record in the dimension table."
+        data_tests:
+          - unique
+          - not_null
+
+      - name: title_txt
+        data_type: text
+        description: "Original title of the comic as published on XKCD."
+
+      - name: safe_title_txt
+        data_type: text
+        description: "URL-safe version of the comic title, used for navigation and linking."
+        data_tests: 
+          - not_null
+
+      - name: transcript_txt
+        data_type: text
+        description: "Textual transcript of the comic."
+
+      - name: alt_txt
+        data_type: text
+        description: "Alternate caption or hover text displayed when hovering over the comic image."
