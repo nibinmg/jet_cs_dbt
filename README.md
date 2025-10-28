@@ -113,6 +113,5 @@ Follow these steps to set up the dbt for the first time:
     Generate docs and view them, including lineage
     ```bash
     dbt docs generate
-
     dbt docs serve --port 8081
     ```
