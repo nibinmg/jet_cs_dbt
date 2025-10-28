@@ -2,3 +2,11 @@
 target/
 dbt_packages/
 logs/
+# Virtual env folder
+venv/
+# Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+# DBT modules folder
+dbt_modules/
