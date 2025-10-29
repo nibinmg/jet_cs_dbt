@@ -1,5 +1,5 @@
 {{config(
-    materialized = 'table',
+    materialized = 'incremental',
     unique_key = 'comic_id',
     post_hook = ["""
             DO $$
@@ -19,9 +19,14 @@ with cte_src as (
         sc.comic_title_txt as title_txt,
         sc.comic_safe_title_txt as safe_title_txt,
         sc.comic_transcript_txt as transcript_txt,
-        sc.comic_alt_txt as alt_txt
+        sc.comic_alt_txt as alt_txt,
+        hc.load_ts 
     from {{ref('hub_comic')}} hc
     left join {{ref('sat_comic_xkcd')}} sc
         on hc.hsh_hub_comic = sc.hsh_hub_comic
+    where 1=1
+    {% if is_incremental() %}
+        and hc.load_ts > '{{get_last_loaded_ts('dm.dim_comic_details', 'load_ts')}}'
+    {% endif %}
 )
 select * from cte_src

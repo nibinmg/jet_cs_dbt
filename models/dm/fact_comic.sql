@@ -1,5 +1,5 @@
 {{config(
-    materialized = 'table',
+    materialized = 'incremental',
     unique_key = 'comic_id',
     post_hook = ["""
             DO $$
@@ -54,7 +54,8 @@ with cte_src as (
         n.news_id,
         length(regexp_replace(hc.comic_safe_title_txt, '[^A-Za-z]', '', 'g')) * 5 as creator_cost_amt,
         floor(random()*10000) as comic_views_nr,
-        round((random()*9+1)::numeric,1) as customer_review_score
+        round((random()*9+1)::numeric,1) as customer_review_score,
+        c.load_ts
     from {{ref('hub_comic')}} c
     left join {{ref('sat_comic_xkcd')}} hc
         on c.hsh_hub_comic = hc.hsh_hub_comic
@@ -74,6 +75,10 @@ with cte_src as (
         on c.hsh_hub_comic = cn.hsh_hub_comic
     left join {{ref('hub_news')}} n
         on cn.hsh_hub_news = n.hsh_hub_news
+    where 1=1
+    {% if is_incremental() %}
+        and c.load_ts > '{{get_last_loaded_ts('dm.dim_comic_details', 'load_ts')}}'
+    {% endif %}
 )
 select comic_id,
     published_date_id,
