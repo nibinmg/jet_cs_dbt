@@ -3,7 +3,7 @@ jet_cs_dbt:
     dev:
       dbname: jet_db
       host: {{DBT_HOST}}
-      pass: {{DBT_PASSWORD}}
+      password: {{DBT_PASSWORD}}
       port: 5432
       schema: dbt
       threads: 1
