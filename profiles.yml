@@ -2,11 +2,11 @@ jet_cs_dbt:
   outputs:
     dev:
       dbname: jet_db
-      host: {{DBT_HOST}}
-      password: {{DBT_PASSWORD}}
+      host: "{{DBT_HOST}}"
+      password: "{{DBT_PASSWORD}}"
       port: 5432
       schema: dbt
       threads: 1
       type: postgres
-      user: {{DBT_USER}}
+      user: "{{DBT_USER}}"
   target: dev
