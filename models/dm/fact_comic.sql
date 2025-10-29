@@ -77,7 +77,7 @@ with cte_src as (
         on cn.hsh_hub_news = n.hsh_hub_news
     where 1=1
     {% if is_incremental() %}
-        and c.load_ts > '{{get_last_loaded_ts('dm.dim_comic_details', 'load_ts')}}'
+        and c.load_ts > '{{get_last_loaded_ts('dm.fact_comic', 'load_ts')}}'
     {% endif %}
 )
 select comic_id,
@@ -87,5 +87,6 @@ select comic_id,
     news_id,
     creator_cost_amt,
     comic_views_nr,
-    customer_review_score
+    customer_review_score,
+    load_ts
 from cte_src
